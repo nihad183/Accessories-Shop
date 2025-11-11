@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessories-shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== Hero Section ===== -->
+ <header class="hero">
+  <div class="overlay"></div>
+
+  <nav class="navbar">
+    <div class="logo-area">
+      <h1 class="logo">Accessories-shop</h1>
+      <hr class="underline">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#products">Categories</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="hero-image">
+      <img src="Byhouda.png" alt="decoration">
+    </div>
+  </nav>
+
+  <div class="hero-text">
+    <h2>All the art</h2>
+    <p>Explore our Products</p>
+  </div>
+</header>
+
+<!-- ===== About Section ===== -->
+<section id="about" class="about reveal">
+  <div class="container">
+    <h2>About Us</h2>
+    <hr class="about-line">
+    <p class="intro">
+      Welcome to <strong>Accessories-Shop</strong> — your destination for unique and elegant accessories.  
+      Our journey started with a simple idea: to bring style and confidence to everyone through carefully crafted pieces.
+    </p>
+
+    <div class="about-content">
+      <div class="about-features">
+        <h3>Why choose us?</h3>
+        <ul>
+          <li>✦ High-quality materials</li>
+          <li>✦ Affordable prices</li>
+          <li>✦ Fast delivery & excellent customer service</li>
+          <li>✦ Designed with passion & elegance</li>
+        </ul>
+      </div>
+
+      <div class="about-image">
+        <img src="Elegant.jpg" alt="Elegant Accessories">
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ===== Our Product ===== -->
+  <section id="products" class="products reveal">
+    <h2 class="section-title">Our Product</h2>
+    <hr class="section-title-line">
+    <div class="product-row">
+      <div class="product-item" data-category="Ring" style="margin-top:30px;">
+        <img src="ring.jpg" alt="Ring">
+        <p>Ring</p>
+      </div>
+      <div class="product-item" data-category="Necklace" style="margin-top:-20px;">
+        <img src="necklace.jpg" alt="Necklace">
+        <p>Necklace</p>
+      </div>
+      <div class="product-item" data-category="Watch" style="margin-top:40px;">
+        <img src="watch.jpg" alt="Watch">
+        <p>Watch</p>
+      </div>
+      <div class="product-item" data-category="Bracelet" style="margin-top:-10px;">
+        <img src="bracelet.jpg" alt="Bracelet">
+        <p>Bracelet</p>
+      </div>
+       <div class="product-item" data-category="Earring" style="margin-top:40px;">
+        <img src="earring.jpg" alt="Earring">
+        <p>Earring</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact Section ===== -->
+<section id="contact" class="contact reveal">
+
+  <!--  Contact Form -->
+  <div class="contact-form">
+    <input type="text" placeholder="Name">
+    <input type="email" placeholder="Email">
+    <input type="text" placeholder="Subject">
+    <button class="btn">SEND</button>
+  </div>
+
+  <!--  Title in the Middle -->
+  <div class="contact-title">
+    <h2>Contact Us</h2>
+    <hr class="title-line">
+  </div>
+
+  <!--  Contact Info -->
+  <div class="contact-info">
+    <img src="Byhouda.png" alt="Accessories Logo" class="logo-img">
+    <div class="social">
+      <a href="#"><img src="ins.png" alt="Instagram"></a>
+      <a href="#"><img src="fb.png" alt="Facebook"></a>
+      <a href="#"><img src="tiktok.png" alt="Tiktok"></a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <h3>Accessories-shop</h3>
+  <p>All rights reserved © 2025</p>
+  <span class="designer">Designed by <strong>Zair Nihad</strong></span>
+</footer>
+
+  <script src="script.js"></script>
+  <script>
+const productItems = document.querySelectorAll('.product-item');
+productItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const category = item.dataset.category;
+    window.location.href = `products.html?category=${category}`;
+  });
+});
+
+</script>
+
+</body>
+</html>

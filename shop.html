@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessories-Shop | Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Italianno&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#fff;color:#111;scroll-behavior:smooth;}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:15px 40px;background:#d3d0d0ad;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:1000;}
+.nav-left{display:flex;align-items:center;gap:15px;}
+.back-btn i{font-size:1rem;color:#000;transition:0.3s;}
+.back-btn i:hover{color:#d1a17f;}
+.logo{font-family:'Italianno',cursive;font-size:1.6rem;}
+.nav-icons{position:relative;}
+.nav-icons i{margin-left:20px;font-size:1.4rem;cursor:pointer;transition:0.3s;}
+.nav-icons i:hover{color:#d1a17f;transform:scale(1.2);}
+#cartCount{position:absolute;top:-8px;right:-10px;background:red;color:white;border-radius:50%;width:18px;height:18px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.hero{background:url('shop.png') no-repeat center/cover;height:50vh;display:flex;justify-content:center;align-items:center;position:relative;color:#0a0a0a;overflow:hidden;}
+.hero::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);}
+.hero h1{position:relative;font-family:'Italianno',cursive;font-size:3rem;opacity:0;transform:scale(0.8);animation:heroFade 1s ease forwards;}
+@keyframes heroFade{to{opacity:1;transform:scale(1);}}
+
+/* Products */
+section{padding:60px 20px;text-align:center;}
+.products-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:1000px;margin:0 auto;}
+.product-card{border:1px solid #ddd;border-radius:10px;overflow:hidden;transition:all 0.3s ease;opacity:0;transform:translateY(30px);}
+.product-card.show{animation:fadeInUp 0.6s ease forwards;}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0);} }
+.product-card:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.2);}
+.product-card img{width:100%;height:200px;object-fit:cover;}
+.product-info{text-align:center;padding:10px;}
+.product-info h4{font-size:1.2rem;font-weight:500;margin-bottom:5px;}
+.price{color:#a87d5a;font-weight:600;}
+.icons{margin-top:8px;}
+.icons i{margin:0 5px;cursor:pointer;transition:transform 0.3s ease;}
+.icons i:hover{transform:scale(1.3);color:#d1a17f;}
+
+footer{background:black;color:white;text-align:center;padding:20px 0;font-size:0.9rem;line-height:1.6;position:relative;}
+footer h3{font-family:'Italianno',cursive;font-size:2rem;margin-bottom:5px;}
+footer .designer{position:absolute;right:20px;bottom:10px;font-size:0.6rem;opacity:0.6;}
+
+/* Popup + overlay */
+#overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;z-index:998;}
+#overlay.show{display:block;}
+#cartPopup{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.7);
+  background:white;padding:25px;border:2px solid #000;border-radius:10px;
+  z-index:9999;max-height:80vh;overflow-y:auto;display:none;
+  width:90%;max-width:420px;opacity:0;transition:all 0.3s ease;
+}
+#cartPopup.show{display:block;transform:translate(-50%,-50%) scale(1);opacity:1;}
+#cartPopup h3{margin-bottom:15px;}
+#cartPopup button{padding:10px 15px;background:#d1a17f;border:none;color:white;cursor:pointer;margin-top:10px;border-radius:5px;}
+.cart-item{display:flex;align-items:center;margin-bottom:10px;justify-content:space-between;}
+.cart-item img{width:50px;height:50px;margin-right:10px;border-radius:5px;}
+.removeBtn{background:red;color:white;border:none;padding:2px 6px;border-radius:3px;cursor:pointer;}
+#checkoutForm input { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; transition: 0.3s;}
+#checkoutForm input:focus { border-color: #ff6600; box-shadow: 0 0 8px rgba(255, 102, 0, 0.4); outline: none;}
+#confirmOrder { width: 95%; background: linear-gradient(135deg, #ff6600, #ff9900); border: none; padding: 12px; color: white; font-size: 16px; border-radius: 10px; cursor: pointer; transition: 0.3s ease;}
+#confirmOrder:hover { background: linear-gradient(135deg, #ff5500, #ff8800); transform: scale(1.03);}
+#successMessage { display: none; background-color: #e9ffe9; color: #2e7d32; border: 1px solid #2e7d32; border-radius: 10px; padding: 15px; margin-top: 15px; font-size: 16px; text-align: center; animation: fadeIn 0.6s ease-in-out;}
+@keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="logo">Accessories-shop</div>
+  </div>
+  <div class="nav-icons">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span id="cartCount">0</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Shop Now</h1>
+</section>
+
+<section class="products">
+  <div class="products-container" id="productsContainer">
+    <!-- منتجات وهمية للتجربة -->
+  </div>
+</section>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Cart Popup -->
+<div id="cartPopup">
+  <button id="closeCart" style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;font-size:1.2rem;cursor:pointer;padding:2px 8px;">X</button>
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <p id="totalAmount"><strong>Total: 0 DA</strong></p>
+  <button id="checkoutBtn">Checkout</button>
+
+  <div id="checkoutSection" style="display:none; margin-top:20px;">
+    <h3>Checkout</h3>
+    <form id="checkoutForm">
+      <input type="text" name="first_name" placeholder="First Name" required><br>
+      <input type="text" name="last_name" placeholder="Last Name" required><br>
+      <input type="text" name="phone" placeholder="Phone Number" required><br>
+      <input type="text" name="wilaya" placeholder="Wilaya" required><br>
+      <button type="submit" id="confirmOrder">Confirm Order</button>
+    </form>
+    <div id="successMessage">Your order has been placed successfully!</div>
+  </div>
+</div>
+
+<footer>
+  <h3>Accessories-shop</h3>
+  <p>All rights reserved © 2025</p>
+  <span class="designer">Designed by <strong>Zair Nihad</strong></span>
+</footer>
+
+<script>
+// بيانات منتجات وهمية
+const demoProducts = [
+  {name:'Necklace',price:1200,image:'necklace1.jpg'},
+  {name:'Bracelet',price:900,image:'bracelet2.jpg'},
+  {name:'Ring',price:700,image:'ringflower.jpg'},
+  {name:'Earrings',price:500,image:'Earrings.jpg'},
+  {name:'watch',price:500,image:'watch.jpg'},
+  {name:'Necklace',price:1200,image:'necklace2.jpg'},
+  {name:'Bracelet',price:900,image:'bracelet1.jpg'},];
+
+const productsContainer = document.getElementById('productsContainer');
+demoProducts.forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'product-card';
+  card.innerHTML = `
+    <img src="${p.image}" alt="${p.name}">
+    <div class="product-info">
+      <h4>${p.name}</h4>
+      <p class="price">${p.price} DA</p>
+      <div class="icons"><i class="fas fa-cart-plus"></i></div>
+    </div>`;
+  productsContainer.appendChild(card);
+});
+
+// Cart functionality
+let cart = [];
+const cartCount = document.getElementById('cartCount');
+const cartPopup = document.getElementById('cartPopup');
+const overlay = document.getElementById('overlay');
+const closeCart = document.getElementById('closeCart');
+const cartIcon = document.querySelector('.fa-cart-shopping');
+
+function updateCartCount(){ cartCount.textContent = cart.length; }
+function renderCart(){
+  const itemsContainer = document.getElementById('cartItems');
+  let html=''; let total=0;
+  cart.forEach((item,index)=>{
+    html+=`<div class="cart-item">
+      <div style="display:flex; align-items:center;">
+        <img src="${item.image}" alt="">
+        <span>${item.name} - ${item.price} DA</span>
+      </div>
+      <button class="removeBtn" onclick="removeFromCart(${index})">X</button>
+    </div>`;
+    total += item.price;
+  });
+  itemsContainer.innerHTML = html;
+  document.getElementById('totalAmount').textContent = 'Total: ' + total + ' DA';
+}
+
+window.removeFromCart = function(index){ cart.splice(index,1); updateCartCount(); renderCart(); }
+
+document.addEventListener('click', e=>{
+  if(e.target.classList.contains('fa-cart-plus')){
+    const card = e.target.closest('.product-card');
+    const name = card.querySelector('h4').textContent;
+    const price = parseInt(card.querySelector('.price').textContent.replace(' DA',''));
+    const image = card.querySelector('img').src;
+    if(!cart.find(p=>p.name===name)){ cart.push({name,price,image}); updateCartCount(); renderCart(); }
+    else alert('Product already in cart');
+  }
+});
+
+// فتح وغلق السلة
+cartIcon.addEventListener('click',()=>{ cartPopup.classList.add('show'); overlay.classList.add('show'); });
+closeCart.addEventListener('click',()=>{ cartPopup.classList.remove('show'); overlay.classList.remove('show'); });
+overlay.addEventListener('click',()=>{ cartPopup.classList.remove('show'); overlay.classList.remove('show'); });
+
+// Checkout form
+document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+  if(cart.length===0){ alert("Your cart is empty!"); return; }
+  document.getElementById('checkoutSection').style.display='block';
+});
+
+document.getElementById('checkoutForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  cart = [];
+  updateCartCount();
+  renderCart();
+  e.target.reset();
+  document.getElementById('successMessage').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('successMessage').style.display='none';
+    document.getElementById('checkoutSection').style.display='none';
+    cartPopup.classList.remove('show'); overlay.classList.remove('show');
+  },4000);
+});
+
+// Animations for products
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('show'); observer.unobserve(entry.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.product-card').forEach(card=> observer.observe(card));
+</script>
+
+</body>
+</html>
